@@ -4,13 +4,17 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Bachelorette Gallery</title>
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+<title>Bachelorette Photos Gallery</title>
 
 <style>
+:root{
+    --pink:#ff5fa2;
+    --pink-light:#ffd7e8;
+    --pink-bg:#fff7fb;
+    --dark:#2b2b2b;
+    --white:#ffffff;
+    --shadow:0 20px 40px rgba(0,0,0,.08);
+}
 
 *{
     margin:0;
@@ -19,469 +23,356 @@
 }
 
 body{
-    font-family:'Poppins',sans-serif;
-    background:#faf8f8;
-    color:#222;
+    font-family: Inter, Arial, sans-serif;
+    background:linear-gradient(180deg,#fff,#fff7fb);
+    color:var(--dark);
+    min-height:100vh;
 }
 
-/* LOGIN SCREEN */
+.hidden{
+    display:none !important;
+}
 
-#passwordScreen{
+/* PASSWORD SCREEN */
+
+#loginScreen{
     min-height:100vh;
     display:flex;
-    justify-content:center;
     align-items:center;
+    justify-content:center;
     padding:20px;
-
-    background:
-    linear-gradient(
-        rgba(255,255,255,.70),
-        rgba(255,255,255,.70)
-    ),
-    url('https://images.unsplash.com/photo-1519741497674-611481863552?w=1600')
-    center center/cover;
 }
 
 .login-card{
-    width:450px;
-    max-width:100%;
-    background:rgba(255,255,255,.9);
-    backdrop-filter:blur(12px);
-
+    width:100%;
+    max-width:450px;
+    background:white;
     padding:40px;
-    border-radius:30px;
-
+    border-radius:24px;
+    box-shadow:var(--shadow);
     text-align:center;
-
-    box-shadow:
-    0 20px 60px rgba(0,0,0,.1);
 }
 
 .login-card h1{
-    font-family:'Playfair Display',serif;
     font-size:2rem;
-    margin-bottom:12px;
+    margin-bottom:10px;
 }
 
-.subtitle{
-    color:#777;
-    margin-bottom:25px;
+.login-card p{
+    color:#666;
+    margin-bottom:24px;
 }
 
-input{
-    width:100%;
+.password-box{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+}
+
+.password-box input{
     padding:15px;
-    border-radius:14px;
     border:1px solid #ddd;
-    font-size:1rem;
-    margin-bottom:15px;
-}
-
-button{
-    border:none;
-    cursor:pointer;
-    transition:.3s;
-}
-
-.login-btn{
-    width:100%;
-    padding:15px;
-
-    color:white;
-    background:linear-gradient(
-        135deg,
-        #e5a2af,
-        #d88a98
-    );
-
     border-radius:14px;
-    font-weight:600;
+    font-size:1rem;
 }
 
-.login-btn:hover{
-    transform:translateY(-2px);
+.password-box button{
+    padding:15px;
+    border:none;
+    border-radius:14px;
+    background:var(--pink);
+    color:white;
+    font-size:1rem;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.password-box button:hover{
+    opacity:.9;
 }
 
 #error{
-    color:#d83c3c;
-    margin-top:15px;
+    color:#d81b60;
+    margin-top:12px;
 }
 
 /* GALLERY */
 
-#galleryContainer{
-    display:none;
-}
-
-.hero{
+header{
+    padding:40px 20px;
     text-align:center;
-    padding:70px 20px 40px;
 }
 
-.hero h1{
-    font-family:'Playfair Display',serif;
-    font-size:3rem;
+header h1{
+    font-size:2.4rem;
     margin-bottom:10px;
 }
 
-.hero p{
+header p{
     color:#777;
 }
 
-.top-actions{
-    display:flex;
-    justify-content:center;
-    padding-bottom:30px;
-}
-
-.download-all{
-    padding:14px 28px;
-
-    color:white;
-
-    background:linear-gradient(
-    135deg,
-    #e5a2af,
-    #d88a98);
-
-    border-radius:12px;
-}
-
 .gallery{
-    column-count:4;
-    column-gap:20px;
-    padding:0 40px 60px;
+    columns:4 280px;
+    column-gap:18px;
+    padding:20px;
+    max-width:1600px;
+    margin:auto;
 }
 
-.gallery-item{
-    position:relative;
-    margin-bottom:20px;
+.card{
     break-inside:avoid;
+    margin-bottom:18px;
+    background:white;
+    border-radius:20px;
+    overflow:hidden;
+    box-shadow:var(--shadow);
+    transition:.25s;
 }
 
-.gallery img{
+.card:hover{
+    transform:translateY(-4px);
+}
+
+.card img{
     width:100%;
     display:block;
-    border-radius:20px;
     cursor:pointer;
-
-    transition:.3s;
 }
 
-.gallery img:hover{
-    transform:scale(1.02);
+.card-footer{
+    padding:14px;
 }
 
 .download-btn{
-
-    position:absolute;
-
-    right:12px;
-    bottom:12px;
-
-    background:white;
-
-    color:#333;
-
+    display:block;
+    width:100%;
+    text-align:center;
     text-decoration:none;
-
-    padding:8px 12px;
-
-    border-radius:10px;
-
-    font-size:.85rem;
-
+    padding:12px;
+    background:var(--pink);
+    color:white;
+    border-radius:12px;
     font-weight:600;
+}
 
-    box-shadow:
-    0 5px 20px rgba(0,0,0,.15);
+.download-btn:hover{
+    opacity:.9;
 }
 
 /* LIGHTBOX */
 
 #lightbox{
-
     position:fixed;
     inset:0;
-
     background:rgba(0,0,0,.92);
-
-    display:none;
-
-    justify-content:center;
+    display:flex;
     align-items:center;
-    flex-direction:column;
-
-    z-index:999;
+    justify-content:center;
+    z-index:9999;
+    padding:20px;
 }
 
 #lightbox img{
-    max-width:90%;
-    max-height:80vh;
-    border-radius:20px;
+    max-width:95vw;
+    max-height:90vh;
+    border-radius:12px;
 }
 
-#closeLightbox{
+.close{
     position:absolute;
     top:20px;
-    right:30px;
-
-    color:white;
-    font-size:45px;
-    cursor:pointer;
-}
-
-#downloadSingle{
-
-    margin-top:20px;
-
-    text-decoration:none;
-
+    right:25px;
     background:white;
-
     color:black;
-
-    padding:12px 24px;
-
-    border-radius:12px;
-
-    font-weight:600;
-}
-
-footer{
-    text-align:center;
-    padding:30px;
-    color:#888;
-}
-
-@media(max-width:1200px){
-    .gallery{
-        column-count:3;
-    }
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    border:none;
+    cursor:pointer;
+    font-size:20px;
+    font-weight:bold;
 }
 
 @media(max-width:768px){
-    .gallery{
-        column-count:2;
-        padding:0 20px 40px;
-    }
 
-    .hero h1{
-        font-size:2.2rem;
-    }
-}
-
-@media(max-width:500px){
-
-    .gallery{
-        column-count:1;
+    header h1{
+        font-size:1.8rem;
     }
 
     .login-card{
         padding:30px;
     }
 }
-
 </style>
 </head>
-
 <body>
 
 <!-- PASSWORD SCREEN -->
 
-<div id="passwordScreen">
+<div id="loginScreen">
 
     <div class="login-card">
+        <h1>Private Photo Gallery</h1>
 
-        <h1>✨ Bride Tribe Memories ✨</h1>
-
-        <p class="subtitle">
-            Enter your private gallery password.
+        <p>
+            Enter your gallery password to access all photographs.
         </p>
 
-        <input
-            type="password"
-            id="passwordInput"
-            placeholder="Password"
-        >
+        <div class="password-box">
+            <input
+                type="password"
+                id="passwordInput"
+                placeholder="Enter password"
+                aria-label="Password"
+            >
 
-        <button
-            class="login-btn"
-            onclick="checkPassword()">
-            Enter Gallery
-        </button>
+            <button onclick="checkPassword()">
+                Open Gallery
+            </button>
+        </div>
 
         <div id="error"></div>
-
     </div>
 
 </div>
 
 <!-- GALLERY -->
 
-<div id="galleryContainer">
+<div id="galleryContainer" class="hidden">
 
-    <section class="hero">
-        <h1>Bachelorette Weekend</h1>
-        <p>Captured with love, laughter & celebration</p>
-    </section>
-
-    <div class="top-actions">
-        <button
-            class="download-all"
-            id="downloadAllBtn">
-            Download All Photos
-        </button>
-    </div>
+    <header>
+        <h1>Bachelorette Celebration</h1>
+        <p>Private collection of high-resolution photographs</p>
+    </header>
 
     <div class="gallery" id="gallery"></div>
-
-    <footer>
-        © Your Photographer Name
-    </footer>
 
 </div>
 
 <!-- LIGHTBOX -->
 
-<div id="lightbox">
-
-    <span id="closeLightbox">&times;</span>
-
-    <img id="lightboxImg" src="">
-
-    <a id="downloadSingle" download>
-        Download Photo
-    </a>
-
+<div id="lightbox" class="hidden">
+    <button class="close" onclick="closeLightbox()">×</button>
+    
 </div>
 
 <script>
 
+/* PASSWORD */
+
 const PASSWORD = "photoshoot2026";
-
-/*
-    Replace with your actual photos
-*/
-
-const images = [
-
-    "images/photo1.jpg",
-    "images/photo2.jpg",
-    "images/photo3.jpg",
-    "images/photo4.jpg",
-    "images/photo5.jpg",
-    "images/photo6.jpg",
-    "images/photo7.jpg",
-    "images/photo8.jpg"
-
-];
 
 function checkPassword(){
 
-    const entered =
-    document.getElementById("passwordInput").value;
+    const value = document
+        .getElementById("passwordInput")
+        .value;
 
-    if(entered === PASSWORD){
+    if(value === PASSWORD){
 
-        document.getElementById("passwordScreen")
-        .style.display = "none";
+        localStorage.setItem("galleryAccess", "granted");
+
+        document.getElementById("loginScreen")
+            .classList.add("hidden");
 
         document.getElementById("galleryContainer")
-        .style.display = "block";
-
-        renderGallery();
+            .classList.remove("hidden");
 
     }else{
 
-        document.getElementById("error")
-        .innerText = "Incorrect password";
-
+        document.getElementById("error").innerText =
+            "Incorrect password.";
     }
-
 }
 
-document
-.getElementById("passwordInput")
-.addEventListener("keypress", function(e){
+if(localStorage.getItem("galleryAccess")==="granted"){
 
-    if(e.key === "Enter"){
-        checkPassword();
-    }
+    document.getElementById("loginScreen")
+        .classList.add("hidden");
 
-});
-
-function renderGallery(){
-
-    const gallery =
-    document.getElementById("gallery");
-
-    gallery.innerHTML = "";
-
-    images.forEach((src)=>{
-
-        const item =
-        document.createElement("div");
-
-        item.className = "gallery-item";
-
-        item.innerHTML = `
-            <img
-                src="${src}"
-                loading="lazy"
-                onclick="    document.getElementById("lightboxImg")
-    .src = src;
-
-    document.getElementById("downloadSingle")
-    .href = src;
+    document.getElementById("galleryContainer")
+        .classList.remove("hidden");
 }
 
-document
-.getElementById("closeLightbox")
-.addEventListener("click", ()=>{
+/*
+ADD ALL IMAGE FILENAMES HERE
 
-    document.getElementById("lightbox")
-    .style.display = "none";
+Example:
+photo1.jpg
+photo2.jpg
+photo3.jpg
 
-});
+Upload them beside index.html
+*/
 
-document
-.getElementById("lightbox")
-.addEventListener("click", (e)=>{
+const images = [
+    "photo1.jpg",
+    "photo2.jpg",
+    "photo3.jpg",
+    "photo4.jpg",
+    "photo5.jpg",
+    "photo6.jpg"
+];
 
-    if(e.target.id === "lightbox"){
+const gallery = document.getElementById("gallery");
 
-        document.getElementById("lightbox")
-        .style.display = "none";
+images.forEach(file => {
 
-    }
+    const card = document.createElement("div");
+    card.className = "card";
 
-});
+    card.innerHTML = `
+        ${file}
 
-document
-.getElementById("downloadAllBtn")
-.addEventListener("click", ()=>{
+        <div class="card-footer">
+            ${file}
+                Download Photo
+            </a>
+        </div>
+    `;
 
-    images.forEach((img,index)=>{
+    const image = card.querySelector("img");
 
-        setTimeout(()=>{
-
-            const a =
-            document.createElement("a");
-
-            a.href = img;
-            a.download = "";
-
-            document.body.appendChild(a);
-
-            a.click();
-
-            document.body.removeChild(a);
-
-        }, index * 300);
-
+    image.addEventListener("click", () => {
+        openLightbox(file);
     });
 
+    image.addEventListener("keydown", (e) => {
+        if(e.key === "Enter"){
+            openLightbox(file);
+        }
+    });
+
+    gallery.appendChild(card);
+});
+
+function openLightbox(src){
+
+    document.getElementById("lightboxImage").src = src;
+    document.getElementById("lightbox")
+        .classList.remove("hidden");
+}
+
+function closeLightbox(){
+
+    document.getElementById("lightbox")
+        .classList.add("hidden");
+}
+
+document.addEventListener("keydown",(e)=>{
+
+    if(e.key==="Escape"){
+        closeLightbox();
+    }
+});
+
+document.getElementById("lightbox")
+?.addEventListener("click",(e)=>{
+
+    if(e.target.id==="lightbox"){
+        closeLightbox();
+    }
 });
 
 </script>
