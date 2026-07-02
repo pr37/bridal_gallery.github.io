@@ -1,157 +1,490 @@
-export default function GalleryApp() {
-  const PASSWORD = 'photoshoot2026';
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  const [authenticated, setAuthenticated] = React.useState(false);
-  const [password, setPassword] = React.useState('');
-  const [selectedImage, setSelectedImage] = React.useState(null);
+<title>Bachelorette Gallery</title>
 
-  // Add image URLs here
-  const images = [
-    {
-      title: 'Bridal Moments 01',
-      src: 'images/photo1.jpg'
-    },
-    {
-      title: 'Bridal Moments 02',
-      src: 'images/photo2.jpg'
-    },
-    {
-      title: 'Bridal Moments 03',
-      src: 'images/photo3.jpg'
-    }
-  ];
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
 
-  const login = () => {
-    if (password === PASSWORD) {
-      setAuthenticated(true);
-    } else {
-      alert('Incorrect password');
-    }
-  };
+<style>
 
-  const downloadImage = async (url, filename) => {
-    const response = await fetch(url);
-    const blob = await response.blob();
-    const blobUrl = window.URL.createObjectURL(blob);
-
-    const link = document.createElement('a');
-    link.href = blobUrl;
-    link.download = filename;
-    link.click();
-
-    window.URL.revokeObjectURL(blobUrl);
-  };
-
-  const downloadAll = () => {
-    images.forEach((img, index) => {
-      setTimeout(() => {
-        downloadImage(img.src, `photo-${index + 1}.jpg`);
-      }, index * 500);
-    });
-  };
-
-  if (!authenticated) {
-    return (
-      <div className='min-h-screen bg-gradient-to-br from-rose-50 via-pink-50 to-white flex items-center justify-center p-6'>
-        <div className='bg-white/90 backdrop-blur-xl rounded-3xl shadow-2xl p-10 w-full max-w-md border border-pink-100'>
-          <h1 className='text-4xl font-light text-center mb-2 text-rose-500'>Bride Gallery</h1>
-          <p className='text-center text-gray-500 mb-8'>Private photo collection</p>
-
-          <input
-            type='password'
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder='Enter access password'
-            className='w-full p-4 rounded-2xl border border-pink-200 focus:outline-none focus:ring-2 focus:ring-rose-300'
-            onKeyDown={(e) => e.key === 'Enter' && login()}
-          />
-
-          <button
-            onClick={login}
-            className='w-full mt-4 bg-rose-500 hover:bg-rose-600 text-white py-4 rounded-2xl transition-all font-medium'
-          >
-            Enter Gallery
-          </button>
-        </div>
-      </div>
-    );
-  }
-
-  return (
-    <div className='min-h-screen bg-gradient-to-br from-rose-50 via-white to-pink-50'>
-      <header className='sticky top-0 z-20 backdrop-blur-xl bg-white/80 border-b border-pink-100'>
-        <div className='max-w-7xl mx-auto px-6 py-5 flex justify-between items-center'>
-          <div>
-            <h1 className='text-3xl font-light text-rose-500'>Bachelorette Memories</h1>
-            <p className='text-sm text-gray-500'>A private collection curated with love</p>
-          </div>
-
-          <button
-            onClick={downloadAll}
-            className='bg-rose-500 hover:bg-rose-600 text-white px-6 py-3 rounded-2xl shadow-lg'
-          >
-            Download All
-          </button>
-        </div>
-      </header>
-
-      <main className='max-w-7xl mx-auto p-6'>
-        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
-          {images.map((image, index) => (
-            <div
-              key={index}
-              className='group bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300'
-            >
-              <div className='overflow-hidden'>
-                <img
-                  src={image.src}
-                  alt={image.title}
-                  className='w-full h-80 object-cover group-hover:scale-105 transition duration-500 cursor-pointer'
-                  onClick={() => setSelectedImage(image)}
-                />
-              </div>
-
-              <div className='p-5 flex justify-between items-center'>
-                <span className='text-gray-700'>{image.title}</span>
-
-                <button
-                  onClick={() => downloadImage(image.src, image.title + '.jpg')}
-                  className='bg-pink-100 hover:bg-pink-200 text-rose-600 px-4 py-2 rounded-xl'
-                >
-                  Download
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
-      </main>
-
-      {selectedImage && (
-        <div
-          className='fixed inset-0 bg-black/85 flex items-center justify-center z-50 p-6'
-          onClick={() => setSelectedImage(null)}
-        >
-          <div className='max-w-6xl w-full'>
-            <img
-              src={selectedImage.src}
-              alt={selectedImage.title}
-              className='max-h-[85vh] mx-auto rounded-2xl'
-            />
-
-            <div className='flex justify-center mt-4 gap-4'>
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  downloadImage(selectedImage.src, selectedImage.title + '.jpg');
-                }}
-                className='bg-white px-6 py-3 rounded-2xl'
-              >
-                Download Photo
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-    </div>
-  );
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
 }
+
+body{
+    font-family:'Poppins',sans-serif;
+    background:#faf8f8;
+    color:#222;
+}
+
+/* LOGIN SCREEN */
+
+#passwordScreen{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+
+    background:
+    linear-gradient(
+        rgba(255,255,255,.70),
+        rgba(255,255,255,.70)
+    ),
+    url('https://images.unsplash.com/photo-1519741497674-611481863552?w=1600')
+    center center/cover;
+}
+
+.login-card{
+    width:450px;
+    max-width:100%;
+    background:rgba(255,255,255,.9);
+    backdrop-filter:blur(12px);
+
+    padding:40px;
+    border-radius:30px;
+
+    text-align:center;
+
+    box-shadow:
+    0 20px 60px rgba(0,0,0,.1);
+}
+
+.login-card h1{
+    font-family:'Playfair Display',serif;
+    font-size:2rem;
+    margin-bottom:12px;
+}
+
+.subtitle{
+    color:#777;
+    margin-bottom:25px;
+}
+
+input{
+    width:100%;
+    padding:15px;
+    border-radius:14px;
+    border:1px solid #ddd;
+    font-size:1rem;
+    margin-bottom:15px;
+}
+
+button{
+    border:none;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.login-btn{
+    width:100%;
+    padding:15px;
+
+    color:white;
+    background:linear-gradient(
+        135deg,
+        #e5a2af,
+        #d88a98
+    );
+
+    border-radius:14px;
+    font-weight:600;
+}
+
+.login-btn:hover{
+    transform:translateY(-2px);
+}
+
+#error{
+    color:#d83c3c;
+    margin-top:15px;
+}
+
+/* GALLERY */
+
+#galleryContainer{
+    display:none;
+}
+
+.hero{
+    text-align:center;
+    padding:70px 20px 40px;
+}
+
+.hero h1{
+    font-family:'Playfair Display',serif;
+    font-size:3rem;
+    margin-bottom:10px;
+}
+
+.hero p{
+    color:#777;
+}
+
+.top-actions{
+    display:flex;
+    justify-content:center;
+    padding-bottom:30px;
+}
+
+.download-all{
+    padding:14px 28px;
+
+    color:white;
+
+    background:linear-gradient(
+    135deg,
+    #e5a2af,
+    #d88a98);
+
+    border-radius:12px;
+}
+
+.gallery{
+    column-count:4;
+    column-gap:20px;
+    padding:0 40px 60px;
+}
+
+.gallery-item{
+    position:relative;
+    margin-bottom:20px;
+    break-inside:avoid;
+}
+
+.gallery img{
+    width:100%;
+    display:block;
+    border-radius:20px;
+    cursor:pointer;
+
+    transition:.3s;
+}
+
+.gallery img:hover{
+    transform:scale(1.02);
+}
+
+.download-btn{
+
+    position:absolute;
+
+    right:12px;
+    bottom:12px;
+
+    background:white;
+
+    color:#333;
+
+    text-decoration:none;
+
+    padding:8px 12px;
+
+    border-radius:10px;
+
+    font-size:.85rem;
+
+    font-weight:600;
+
+    box-shadow:
+    0 5px 20px rgba(0,0,0,.15);
+}
+
+/* LIGHTBOX */
+
+#lightbox{
+
+    position:fixed;
+    inset:0;
+
+    background:rgba(0,0,0,.92);
+
+    display:none;
+
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+
+    z-index:999;
+}
+
+#lightbox img{
+    max-width:90%;
+    max-height:80vh;
+    border-radius:20px;
+}
+
+#closeLightbox{
+    position:absolute;
+    top:20px;
+    right:30px;
+
+    color:white;
+    font-size:45px;
+    cursor:pointer;
+}
+
+#downloadSingle{
+
+    margin-top:20px;
+
+    text-decoration:none;
+
+    background:white;
+
+    color:black;
+
+    padding:12px 24px;
+
+    border-radius:12px;
+
+    font-weight:600;
+}
+
+footer{
+    text-align:center;
+    padding:30px;
+    color:#888;
+}
+
+@media(max-width:1200px){
+    .gallery{
+        column-count:3;
+    }
+}
+
+@media(max-width:768px){
+    .gallery{
+        column-count:2;
+        padding:0 20px 40px;
+    }
+
+    .hero h1{
+        font-size:2.2rem;
+    }
+}
+
+@media(max-width:500px){
+
+    .gallery{
+        column-count:1;
+    }
+
+    .login-card{
+        padding:30px;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- PASSWORD SCREEN -->
+
+<div id="passwordScreen">
+
+    <div class="login-card">
+
+        <h1>✨ Bride Tribe Memories ✨</h1>
+
+        <p class="subtitle">
+            Enter your private gallery password.
+        </p>
+
+        <input
+            type="password"
+            id="passwordInput"
+            placeholder="Password"
+        >
+
+        <button
+            class="login-btn"
+            onclick="checkPassword()">
+            Enter Gallery
+        </button>
+
+        <div id="error"></div>
+
+    </div>
+
+</div>
+
+<!-- GALLERY -->
+
+<div id="galleryContainer">
+
+    <section class="hero">
+        <h1>Bachelorette Weekend</h1>
+        <p>Captured with love, laughter & celebration</p>
+    </section>
+
+    <div class="top-actions">
+        <button
+            class="download-all"
+            id="downloadAllBtn">
+            Download All Photos
+        </button>
+    </div>
+
+    <div class="gallery" id="gallery"></div>
+
+    <footer>
+        © Your Photographer Name
+    </footer>
+
+</div>
+
+<!-- LIGHTBOX -->
+
+<div id="lightbox">
+
+    <span id="closeLightbox">&times;</span>
+
+    <img id="lightboxImg" src="">
+
+    <a id="downloadSingle" download>
+        Download Photo
+    </a>
+
+</div>
+
+<script>
+
+const PASSWORD = "photoshoot2026";
+
+/*
+    Replace with your actual photos
+*/
+
+const images = [
+
+    "images/photo1.jpg",
+    "images/photo2.jpg",
+    "images/photo3.jpg",
+    "images/photo4.jpg",
+    "images/photo5.jpg",
+    "images/photo6.jpg",
+    "images/photo7.jpg",
+    "images/photo8.jpg"
+
+];
+
+function checkPassword(){
+
+    const entered =
+    document.getElementById("passwordInput").value;
+
+    if(entered === PASSWORD){
+
+        document.getElementById("passwordScreen")
+        .style.display = "none";
+
+        document.getElementById("galleryContainer")
+        .style.display = "block";
+
+        renderGallery();
+
+    }else{
+
+        document.getElementById("error")
+        .innerText = "Incorrect password";
+
+    }
+
+}
+
+document
+.getElementById("passwordInput")
+.addEventListener("keypress", function(e){
+
+    if(e.key === "Enter"){
+        checkPassword();
+    }
+
+});
+
+function renderGallery(){
+
+    const gallery =
+    document.getElementById("gallery");
+
+    gallery.innerHTML = "";
+
+    images.forEach((src)=>{
+
+        const item =
+        document.createElement("div");
+
+        item.className = "gallery-item";
+
+        item.innerHTML = `
+            <img
+                src="${src}"
+                loading="lazy"
+                onclick="    document.getElementById("lightboxImg")
+    .src = src;
+
+    document.getElementById("downloadSingle")
+    .href = src;
+}
+
+document
+.getElementById("closeLightbox")
+.addEventListener("click", ()=>{
+
+    document.getElementById("lightbox")
+    .style.display = "none";
+
+});
+
+document
+.getElementById("lightbox")
+.addEventListener("click", (e)=>{
+
+    if(e.target.id === "lightbox"){
+
+        document.getElementById("lightbox")
+        .style.display = "none";
+
+    }
+
+});
+
+document
+.getElementById("downloadAllBtn")
+.addEventListener("click", ()=>{
+
+    images.forEach((img,index)=>{
+
+        setTimeout(()=>{
+
+            const a =
+            document.createElement("a");
+
+            a.href = img;
+            a.download = "";
+
+            document.body.appendChild(a);
+
+            a.click();
+
+            document.body.removeChild(a);
+
+        }, index * 300);
+
+    });
+
+});
+
+</script>
+
+</body>
+</html>
