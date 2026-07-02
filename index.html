@@ -244,6 +244,11 @@ header p{
     <header>
         <h1>Bachelorette Celebration</h1>
         <p>Private collection of high-resolution photographs</p>
+        
+<a href="#" class="download-btn" onclick="downloadAll(); return false;">
+    Download All
+</a>
+
     </header>
 
     <div class="gallery" id="gallery"></div>
@@ -386,6 +391,26 @@ document.getElementById("lightbox")
         closeLightbox();
     }
 });
+
+    function downloadAll() {
+
+    images.forEach((file, index) => {
+
+        setTimeout(() => {
+
+            const link = document.createElement("a");
+            link.href = file;
+            link.download = file;
+
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+        }, index * 500);
+
+    });
+
+}
 
 </script>
 
