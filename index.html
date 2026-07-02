@@ -252,8 +252,12 @@ header p{
 
 <!-- LIGHTBOX -->
 
+
 <div id="lightbox" class="hidden">
     <button class="close" onclick="closeLightbox()">×</button>
+    <img id="lightboxImage" src="" alt="Preview">
+</div>
+
     
 </div>
 
@@ -323,10 +327,18 @@ images.forEach(file => {
     card.className = "card";
 
     card.innerHTML = `
-        ${file}
+        <img
+            src="${file}"
+            alt="Photo"
+            tabindex="0"
+        >
 
         <div class="card-footer">
-            ${file}
+            <a
+                href="${file}"
+                download
+                class="download-btn"
+            >
                 Download Photo
             </a>
         </div>
@@ -346,7 +358,7 @@ images.forEach(file => {
 
     gallery.appendChild(card);
 });
-
+    
 function openLightbox(src){
 
     document.getElementById("lightboxImage").src = src;
